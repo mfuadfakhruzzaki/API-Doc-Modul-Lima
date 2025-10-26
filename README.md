@@ -1,9 +1,7 @@
 ## 📖 API Documentation
 
 ### **Base URL**
-
-- **Local:** `http://localhost:18080`
-- **Production:** `https://modlima.fuadfakhruz.id`
+`https://modlima.fuadfakhruz.id`
 
 ### **Response Format**
 
