@@ -143,7 +143,79 @@ Create new recipe.
 
 ##### `PUT /api/v1/recipes/:id`
 
-Update existing recipe. Same request body as POST.
+Update existing recipe (full replacement). All fields are required, same as POST.
+
+**Note:** This replaces the entire recipe including all ingredients and steps.
+
+##### `PATCH /api/v1/recipes/:id`
+
+Partially update recipe. Only send the fields you want to update.
+
+**Request Body Examples:**
+
+Update name only:
+
+```json
+{
+  "name": "Nasi Goreng Special Updated"
+}
+```
+
+Update image URL only:
+
+```json
+{
+  "image_url": "https://cdn.modlima.fuadfakhruz.id/new-image.jpg"
+}
+```
+
+Update multiple fields:
+
+```json
+{
+  "name": "Nasi Goreng Special",
+  "difficulty": "sedang",
+  "prep_time": 20,
+  "is_featured": true
+}
+```
+
+Update ingredients only:
+
+```json
+{
+  "ingredients": [
+    {
+      "name": "Nasi putih",
+      "quantity": "600 gram"
+    },
+    {
+      "name": "Telur",
+      "quantity": "2 butir"
+    }
+  ]
+}
+```
+
+**Available Fields:**
+
+- `name` (string, min 3, max 200 chars)
+- `category` (string, `makanan` or `minuman`)
+- `description` (string)
+- `image_url` (string)
+- `prep_time` (int, >= 0)
+- `cook_time` (int, >= 0)
+- `servings` (int, >= 1)
+- `difficulty` (string, `mudah`, `sedang`, or `sulit`)
+- `is_featured` (boolean)
+- `ingredients` (array, min 1 if provided)
+- `steps` (array of strings, min 1 if provided)
+
+**Note:**
+
+- Only provided fields will be updated
+- If `ingredients` or `steps` are provided, they will completely replace the old ones
+- Omitted fields will keep their current values
 
 ##### `DELETE /api/v1/recipes/:id`
 
@@ -305,7 +377,7 @@ Upload recipe image to MinIO.
 **Example (curl):**
 
 ```bash
-curl -X POST https://modlima.fuadfakhruz.id/api/v1/upload \
+curl -X POST http://localhost:18080/api/v1/upload \
   -F "image=@photo.jpg"
 ```
 
